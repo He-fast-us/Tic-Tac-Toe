@@ -51,9 +51,10 @@ type GameState = {
   xIsNext: boolean,
 }
 
+// possible responses to a user click
 type Action =
-  | { type: "clickSquare", index: number }
-  | { type: "jumpTo", step: number }
+  | { type: "clickSquare", index: number } // which squaure was clicked
+  | { type: "jumpTo", step: number } // which turn was jumped back to
 
 // action creators
 const clickSquare = (index: number): Action => ({ type: "clickSquare", index })
@@ -65,10 +66,10 @@ function updateGameState(state: GameState, action: Action): GameState {
       const history = state.history.slice(0, state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice(); // slice() makes a copy of the original array
-      if (calculateWinner(squares) || squares[action.index]) {
+      if (calculateWinner(squares) || squares[action.index] != null) {
         return state;
       }
-      squares[action.index] = state.xIsNext ? "X" : "O";
+      squares[action.index] = state.xIsNext ? "X" : "O"; // condensed if/else statement
       return {
         history: history.concat([
           {
@@ -131,13 +132,14 @@ function Game() {
         <div>{status}</div>
         <ol>{moves}</ol>
       </div>
+      {winner ? <div>Player {winner} wins!</div> : null}
     </div>
   );
 }
 
 // ========================================
 
-function calculateWinner(squares: Array<SquareValue>) {
+function calculateWinner(squares: Array<SquareValue>): SquareValue {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -148,10 +150,10 @@ function calculateWinner(squares: Array<SquareValue>) {
     [0, 4, 8],
     [2, 4, 6]
   ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+  for (const line of lines) {
+    const [a, b, c] = line; // destructuring assignment
+    if (squares[a] != null && squares[a] === squares[b] && squares[a] === squares[c]) { // runs check for winning row
+      return squares[a]; // could be "X" or "O"
     }
   }
   return null;
