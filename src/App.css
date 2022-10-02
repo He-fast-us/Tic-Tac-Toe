@@ -32,6 +32,10 @@ ol, ul {
   width: 18rem;
 }
 
+.winning-line{
+  color:tomato
+}
+
 .square:focus {
   outline: none;
 }

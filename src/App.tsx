@@ -1,9 +1,9 @@
 import './App.css';
 import React, { useReducer } from 'react';
 
-function Square(props: { onClick: () => void, value: SquareValue }) {
-  return (
-    <button className="square" onClick={props.onClick}>
+function Square(props: { onClick: () => void, value: SquareValue, className?: string }) { // "?" here just makes the className property optional
+  return ( //the backticks below, `, are used instead of quotes to allow for interpolation in button's className properties 
+    <button className={`square ${props.className}`} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -12,14 +12,17 @@ function Square(props: { onClick: () => void, value: SquareValue }) {
 type BoardProps = {
   squares: Array<SquareValue>, // Array<SquareValue> is identical to SquareValue[]
   onClick: (index: number) => void,
+  winningLine?: number[],
 }
 
 function Board(props: BoardProps) {
 
+  const isinwinningLine = (i: number) => props.winningLine?.includes(i)
   const renderSquare = (i: number) =>
     <Square
       value={props.squares[i]}
       onClick={() => props.onClick(i)}
+      className={isinwinningLine(i) ? "winning-line" : ""}
     />
 
   return (
@@ -100,7 +103,8 @@ function Game() {
 
   const history = state.history;
   const current = history[state.stepNumber];
-  const winner = calculateWinner(current.squares);
+  const winningplayer = calculateWinner(current.squares);
+  console.log("winningplayer", winningplayer);
 
   const moves = history.map((step, move) => {
     const desc = move !== 0 ?
@@ -114,8 +118,8 @@ function Game() {
   });
 
   let status: string;
-  if (winner) {
-    status = "Winner: " + winner;
+  if (winningplayer) {
+    status = `Player ${winningplayer.winner} wins!`;
   } else {
     status = "Next player: " + (state.xIsNext ? "X" : "O");
   }
@@ -126,20 +130,20 @@ function Game() {
         <Board
           squares={current.squares}
           onClick={i => dispatch(clickSquare(i))}
+          winningLine={winningplayer?.line /* "?" will check winningplayer.line for null before returning, to prevent crash */}
         />
       </div>
       <div className="game-info">
         <div>{status}</div>
         <ol>{moves}</ol>
       </div>
-      {winner ? <div>Player {winner} wins!</div> : null}
     </div>
   );
 }
 
 // ========================================
 
-function calculateWinner(squares: Array<SquareValue>): SquareValue {
+function calculateWinner(squares: Array<SquareValue>): { winner: "X" | "O", line: number[] } | null {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -152,8 +156,9 @@ function calculateWinner(squares: Array<SquareValue>): SquareValue {
   ];
   for (const line of lines) {
     const [a, b, c] = line; // destructuring assignment
-    if (squares[a] != null && squares[a] === squares[b] && squares[a] === squares[c]) { // runs check for winning row
-      return squares[a]; // could be "X" or "O"
+    const [square_a, square_b, square_c] = [squares[a], squares[b], squares[c]]
+    if (square_a != null && square_a === square_b && square_a === square_c) { // runs check for winning row
+      return { winner: square_a, line }; // squares[a] could be "X" or "O," and "line" will return winning line
     }
   }
   return null;
