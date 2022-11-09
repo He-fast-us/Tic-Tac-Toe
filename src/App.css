@@ -7,11 +7,16 @@ ol, ul {
   padding-left: 30px;
 }
 
-.board-row:after {
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/*.board-row:after {
   clear: both;
   content: "";
   display: table;
-}
+}*/
 
 .status {
   margin-bottom: 10px;
