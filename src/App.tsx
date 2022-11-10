@@ -27,15 +27,15 @@ function Board(props: BoardProps) {
 
   return (
     <div className="board">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
+        <div>{renderSquare(0)}</div>
+        <div>{renderSquare(1)}</div>
+        <div>{renderSquare(2)}</div>
+        <div>{renderSquare(3)}</div>
+        <div>{renderSquare(4)}</div>
+        <div>{renderSquare(5)}</div>
+        <div>{renderSquare(6)}</div>
+        <div>{renderSquare(7)}</div>
+        <div>{renderSquare(8)}</div>
     </div>
   );
 }
@@ -124,7 +124,7 @@ function Game() {
         <Board
           squares={current.squares}
           onClick={i => dispatch(clickSquare(i))}
-          winningLine={winningplayer?.line /* "?" will check winningplayer.line for null before returning, to prevent crash */}
+          winningLine={winningplayer?.line} /* "?" will check winningplayer.line for null before returning, to prevent crash */
         />
       </div>
       <div className="game-info">

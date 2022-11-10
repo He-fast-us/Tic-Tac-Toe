@@ -1,40 +1,42 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+  padding: 20px;
+  max-width: 80%;
 }
 
-ol, ul {
-  padding-left: 30px;
-}
+/* ol, ul {
+  padding-left: auto;
+} */
 
+/* This SHOULD be the game board, re: left column */
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, min-content);
+  grid-auto-rows: minmax(3fr, auto);
+  margin-top: auto;
+  margin-left: 10px;
+  align-self: left;
+  width: 60%;
+  height: 60%; 
+  object-fit: cover;
+  grid-auto-flow: dense;
 }
 
-/*.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}*/
-
-.status {
+/*.status {
   margin-bottom: 10px;
-}
+  margin-left: 10px;
+} */
 
 .square {
   background: #fff;
-  border: 1px solid #999;
+  border: 1px solid black;
   float: left;
-  font-size: 15rem;
+  font-size: 8rem;
   font-weight: bold;
-  line-height: 34px;
-  height: 18rem;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
+  height: 10rem;
+  padding: 10px;
   text-align: center;
-  width: 18rem;
+  width: 10rem;
 }
 
 .winning-line{
@@ -49,14 +51,18 @@ ol, ul {
   background: #ddd;
 }
 
-.game {
-  display: flex;
+/*.game {
+  margin-right: 10px;
+  margin-left: 10px;
   flex-direction: row;
   justify-content: center;
   align-content: center;
-}
+  display: flex;
+  padding: 10px;
+}*/
 
+/* This is the floating text/buttons re: right column */
 .game-info {
-  margin-left: 20px;
+  padding: 20px;
+  justify-self: right;
 }
-
