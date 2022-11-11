@@ -8,6 +8,18 @@ body {
   padding-left: auto;
 } */
 
+/* This should be the full package */
+.game {
+  width: 60%;
+  height: 60%; 
+}
+
+/* This is the floating text/buttons re: right column */
+.game-info {
+  padding: 20px;
+  justify-self: right;
+}
+
 /* This SHOULD be the game board, re: left column */
 .board {
   display: grid;
@@ -16,8 +28,6 @@ body {
   margin-top: auto;
   margin-left: 10px;
   align-self: left;
-  width: 60%;
-  height: 60%; 
   object-fit: cover;
   grid-auto-flow: dense;
 }
@@ -49,20 +59,4 @@ body {
 
 .kbd-navigation .square:focus {
   background: #ddd;
-}
-
-/*.game {
-  margin-right: 10px;
-  margin-left: 10px;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  display: flex;
-  padding: 10px;
-}*/
-
-/* This is the floating text/buttons re: right column */
-.game-info {
-  padding: 20px;
-  justify-self: right;
 }
